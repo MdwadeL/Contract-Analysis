@@ -38,7 +38,7 @@ raw_contract = open_sheet(rca)
 Data Cleaning
 """
 
-print('hi')
+print('hi there')
 
 
 
