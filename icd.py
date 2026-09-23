@@ -2,7 +2,8 @@
 Importing the needed libraries and variables
 """
 
-import pandas as pd
+# pip install (....)
+import pandas as pd                 
 import matplotlib.pyplot as plt
 import numpy as np
 from time import localtime
@@ -38,3 +39,13 @@ Data Cleaning
 """
 
 print('hi')
+
+
+
+"""
+GIT CHANGES
+
+git add .
+git commit -m "Change Check"
+git push
+"""
