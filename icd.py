@@ -62,15 +62,6 @@ for column in data.columns:
     print(f'\n\nDescription for {column} in data')
     print(data[column].describe())
 
-"""
-RawContractsAll(ContractNum, RevisionNum, WorkType, Status, ContractType, Description, Requestor, BusinessOwner, Vendor,
-                POSentDate, Negotiator, StartDate, EndDate, RenewalDate, DueDate, TermMonths, Quote, Ne)
-"""
-
-
-
-
-
 
 
 
