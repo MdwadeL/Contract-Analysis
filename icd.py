@@ -12,6 +12,7 @@ import numpy as np
 from time import localtime
 
 cols_to_drop = ['Description', 'POSentDate', 'DueDate', 'TermMonths']
+unknown_value_replace = ['BusinessArea']
 
 current_year = localtime().tm_year
 current_month = localtime().tm_mon
@@ -46,27 +47,27 @@ data = open_sheet(sheet)
 #------------------------------------------------------------------------------------------------
 
 def drop_unneeded_cols(data):
+
     for column in cols_to_drop:
         if column not in data.columns:
-            print(f'{column} was not found in columns to drop')
+            #print(f'{column} was not found in columns to drop')
             continue
         
         else: data = data.drop(columns=column)
 
     return data
 
+def unknown_replaced(data):
+
+    for col in unknown_value_replace:
+        data[col] = data[col].replace(pd.NA, 'Unknown')
+    
+    return data
+
+
 
 data = drop_unneeded_cols(data)
-
-for column in data.columns:
-    print(f'\n\nDescription for {column} in data')
-    print(data[column].describe())
-
-
-
-
-
-
+data = unknown_replaced(data)
 
 
 
