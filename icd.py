@@ -107,7 +107,6 @@ def feature_data_csv(data):
     return data
 
 
-
 data = date_features(data)
 data = negotiate_savings(data)
 data = savings_percent(data)
@@ -117,61 +116,75 @@ data = feature_data_csv(data)
 #--Exploratory Data Analysis---------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------
 
+def count_status(data):
+    status_counts = data.groupby('Status').agg(count_statuses=('Status', 'count'))
+    print(f'\nCount of Statuses')
+    print(status_counts)
 
-"""
-Overall contract volume
-1. How many contracts exist by status?
-2. How many contracts exist by contract type?
-3. Which business areas have the most contracts?
-4. Which vendors have the highest total contract value?
-5. What is the distribution of contract values?
-6. How much money is saved through negotiation?
-7. Which negotiators produce the greatest negotiation savings?
-8. How has contract volume changed by year and quarter?
-9. How many contracts are expiring in upcoming months/quarters?
-10. Which business areas and negotiators have the largest upcoming expiration workload?
-"""
+    return status_counts
 
+def count_contracttype(data):
+    contracttype_counts = data.groupby('ContractType').agg(count_contracttypes=('ContractType', 'count'))
+    print(f'\nCounts of ContractTypes')
+    print(contracttype_counts)
 
+    return contracttype_counts
 
+def count_businessarea(data):
+    businessarea_counts = data.groupby('BusinessArea').agg(count_businessarea=('BusinessArea', 'count'))
+    print(f'\nCounts of BusinessArea')
+    print(businessarea_counts)
 
+    return businessarea_counts
 
+def stats_amounts_vendor(data):
+    vendor_amount_stat = data.groupby('Vendor').agg(
+        min=('ContractReportCurrentAmount', 'min'),
+        average=('ContractReportCurrentAmount', 'mean'),
+        max=('ContractReportCurrentAmount', 'max'),
+        sum=('ContractReportCurrentAmount', 'sum')
+    ).sort_values(by='sum', ascending=False)
 
+    vendor_amount_stat['average'] = vendor_amount_stat['average'].round(2)
 
+    print(f'\nStatistics of Vendor')
+    print(vendor_amount_stat)
 
-"""
-GIT CHANGES
+    return vendor_amount_stat
 
-git add icd.py
-git commit -m "Change Check"
-git push
-"""
+def stats_amounts_businessarea(data):
+    businessarea_amount_stat = data.groupby('BusinessArea').agg(
+        min=('ContractReportCurrentAmount', 'min'),
+        average=('ContractReportCurrentAmount', 'mean'),
+        max=('ContractReportCurrentAmount', 'max'),
+        sum=('ContractReportCurrentAmount', 'sum')
+    ).sort_values(by='sum', ascending=False)
 
+    businessarea_amount_stat['average'] = businessarea_amount_stat['average'].round(2)
 
+    print(f'\nStatistics Contract Report Current Amount by Business Area')
+    print(businessarea_amount_stat)
 
+    return businessarea_amount_stat
 
+def stats_savings_negotiator(data):
+    negoitator_savings_stat = data.groupby('Negotiator').agg(
+        min=('NegotiationSavings', 'min'),
+        average=('NegotiationSavings', 'mean'),
+        max=('NegotiationSavings', 'max'),
+        sum=('NegotiationSavings', 'sum')
+    ).sort_values(by='sum', ascending=False)
 
+    negoitator_savings_stat['average'] = negoitator_savings_stat['average'].round(2)
 
+    print(f'\nStatistics of Savings by Negoitator')
+    print(negoitator_savings_stat)
 
+    return negoitator_savings_stat    
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"""
-GIT CHANGES
-
-git add icd.py
-git commit -m "Change Check"
-git push
-"""
+status_counts = count_status(data)
+contracttype_counts = count_contracttype(data)
+businessarea_counts = count_businessarea(data)
+vendor_amount_stats = stats_amounts_vendor(data)
+businessarea_amount_stats = stats_amounts_businessarea(data)
+negotiator_savings_stats = stats_savings_negotiator(data)
